@@ -1,0 +1,114 @@
+:root {
+  --bg: #f3f5f2;
+  --ink: #1f2d26;
+  --surface: #ffffff;
+  --line: #d4ddd6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 15% 10%, #e8efe8 0, transparent 33%),
+    radial-gradient(circle at 85% 90%, #f2eadd 0, transparent 35%),
+    var(--bg);
+}
+
+.hub {
+  width: min(1120px, 94vw);
+  margin: 0 auto;
+  padding: 2.5rem 0 3rem;
+}
+
+.hub-header {
+  padding: 2rem;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background: color-mix(in srgb, var(--surface) 90%, #f7f7f7);
+  box-shadow: 0 20px 40px -34px rgba(31, 45, 38, 0.36);
+}
+
+.hub-logo {
+  width: 180px;
+  max-width: 50vw;
+  margin-bottom: 1rem;
+}
+
+.eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  color: #385345;
+}
+
+h1 {
+  margin: 0.45rem 0 0.95rem;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(1.9rem, 3.2vw, 2.9rem);
+  line-height: 1.08;
+}
+
+.hub-header p {
+  margin: 0;
+  max-width: 65ch;
+  color: #3e5047;
+}
+
+.cards {
+  margin-top: 1.35rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  border-radius: 22px;
+  padding: 1.3rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: 0 20px 28px -34px rgba(0, 0, 0, 0.44);
+}
+
+.card h2 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.card p {
+  margin: 0.7rem 0 1rem;
+  color: #486156;
+}
+
+.card a {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 600;
+  color: #0b3e2f;
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 0.13rem;
+}
+
+.card-premium {
+  background: linear-gradient(160deg, #f8f5ed, #ffffff);
+}
+
+.card-warm {
+  background: linear-gradient(160deg, #fff7f1, #ffffff);
+}
+
+.card-bold {
+  background: linear-gradient(160deg, #eff7fb, #ffffff);
+}
+
+@media (max-width: 900px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}

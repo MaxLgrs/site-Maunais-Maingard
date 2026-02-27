@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact - MAUNAIS MAINGARD</title>
+  <meta name="description" content="Page contact avec focus telephone et Google Maps.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-shell">
+      <a class="brand" href="index.html">
+        <img src="assets/logo.png" alt="Logo MAUNAIS MAINGARD">
+        <span>
+          <b>MAUNAIS MAINGARD</b>
+          <span>Contact et demandes de devis</span>
+        </span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">Menu</button>
+      <nav class="main-nav" aria-label="Navigation principale">
+        <a href="index.html">Accueil</a>
+        <a href="materiel-agricole.html">Materiel Agricole</a>
+        <a href="quincaillerie-libre-service.html">Quincaillerie / Libre-Service</a>
+        <a href="motoculture.html">Motoculture</a>
+        <a href="services-techniques.html">Services Techniques</a>
+        <a class="active" href="contact.html">Contact</a>
+      </nav>
+      <a class="header-cta" href="#formulaire">Demander un devis</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-hero" data-reveal>
+      <div class="hero-grid">
+        <article class="hero-copy">
+          <p class="eyebrow">Contact prioritaire</p>
+          <h1>Telephone d'abord,<br>devis ensuite</h1>
+          <p>
+            Le site privilegie le canal telephone (90% des contacts), puis propose
+            un formulaire de demande de devis pour les besoins plus detailles.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="tel:+330200000000">Appeler : 02 00 00 00 00</a>
+            <a class="btn btn-secondary" href="#formulaire">Remplir le formulaire</a>
+          </div>
+        </article>
+        <figure class="hero-media">
+          <img src="assets/photo-atelier.png" alt="Equipe MAUNAIS MAINGARD">
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="section-card">
+        <div class="section-head">
+          <h2>Coordonnees</h2>
+          <p>Blocs actionnables immediatement, visibles sur mobile et desktop.</p>
+        </div>
+        <div class="contact-grid">
+          <article class="contact-item">
+            <b>Telephone prioritaire</b>
+            <a href="tel:+330200000000">02 00 00 00 00</a>
+          </article>
+          <article class="contact-item">
+            <b>Email</b>
+            <a href="mailto:contact@maunais-maingard.fr">contact@maunais-maingard.fr</a>
+          </article>
+          <article class="contact-item">
+            <b>Adresse</b>
+            Zone artisanale - Adresse a confirmer
+          </article>
+          <article class="contact-item">
+            <b>Horaires</b>
+            Lun-Sam : 8h00 - 18h30
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" data-reveal id="formulaire">
+      <div class="section-card">
+        <div class="section-head">
+          <h2>Demande de devis</h2>
+          <p>Formulaire court pour accelerer le traitement interne.</p>
+        </div>
+        <form class="form-grid" action="#" method="post">
+          <label>Nom
+            <input type="text" name="nom" autocomplete="name" required>
+          </label>
+          <label>Telephone
+            <input type="tel" name="telephone" autocomplete="tel" required>
+          </label>
+          <label>Email
+            <input type="email" name="email" autocomplete="email">
+          </label>
+          <label>Service concerne
+            <select name="service">
+              <option>Materiel Agricole</option>
+              <option>Quincaillerie / Libre-Service</option>
+              <option>Motoculture</option>
+              <option>Services Techniques</option>
+            </select>
+          </label>
+          <label class="full">Message
+            <textarea name="message" placeholder="Decrivez votre besoin..."></textarea>
+          </label>
+          <div class="full">
+            <button class="btn btn-primary" type="submit">Envoyer la demande</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="section" data-reveal>
+      <div class="section-card map-frame">
+        <div class="section-head">
+          <h2>Localisation</h2>
+          <p>Carte Google Maps en acces direct pour faciliter les visites.</p>
+        </div>
+        <iframe title="Carte MAUNAIS MAINGARD" src="https://www.google.com/maps?q=Maunais%20Maingard&output=embed" loading="lazy"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="assets/logo.png" alt="Logo MAUNAIS MAINGARD">
+        <div>
+          <b>MAUNAIS MAINGARD</b>
+          <div>Contact direct et reponse rapide.</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <b>Telephone prioritaire</b>
+        <a href="tel:+330200000000">02 00 00 00 00</a>
+        <a href="mailto:contact@maunais-maingard.fr">contact@maunais-maingard.fr</a>
+      </div>
+      <div class="footer-col">
+        <b>Informations legales</b>
+        <a href="#">Mentions legales</a>
+        <a href="#">CGV</a>
+        <a href="#">Confidentialite (RGPD)</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
