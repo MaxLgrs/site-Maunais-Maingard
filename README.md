@@ -3,8 +3,8 @@
 Ce dossier contient 3 propositions de mini-sites (6 pages chacune) :
 
 - `proposition-1-premium`
-- `proposition-2-warm`
-- `proposition-3-bold`
+- `proposition-2-premium`
+- `proposition-3-premium`
 
 La page d'entree pour la presentation client est :
 

@@ -103,6 +103,10 @@ h1 {
   background: linear-gradient(160deg, #fff7f1, #ffffff);
 }
 
+.card-jd {
+  background: linear-gradient(160deg, #f3f8ec, #ffffff);
+}
+
 .card-bold {
   background: linear-gradient(160deg, #eff7fb, #ffffff);
 }

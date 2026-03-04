@@ -624,8 +624,11 @@ a {
 }
 
 .footer-brand img {
-  width: 40px;
+  width: 70px;
   height: 40px;
+  max-width: none;
+  flex: 0 0 auto;
+  object-fit: contain;
 }
 
 .footer-top p {

@@ -422,6 +422,10 @@ textarea {
 
 .footer-brand img {
   width: 74px;
+  height: 43px;
+  max-width: none;
+  flex: 0 0 auto;
+  object-fit: contain;
 }
 
 .footer-col b {

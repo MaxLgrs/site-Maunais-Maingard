@@ -19,7 +19,7 @@ python -m http.server 8090 --directory "Site web\Maingard"
 3. Ouvre dans le navigateur:
 
 ```text
-http://127.0.0.1:8090
+http://127.0.0.ok1:8090
 ```
 
 Tu arrives sur la page hub avec les 3 propositions.
@@ -95,7 +95,7 @@ http://127.0.0.1:8091
 Commande directe (depuis n'importe quel dossier):
 
 ```powershell
-python -m http.server 8092 --directory "C:\Users\Maxime\Antigravity\opencode\Site web\Maingard\proposition-2-warm"
+python -m http.server 8092 --directory "C:\Users\Maxime\Antigravity\opencode\Site web\Maingard\proposition-2-premium"
 ```
 
 URL:
@@ -109,7 +109,7 @@ http://127.0.0.1:8092
 Commande directe (depuis n'importe quel dossier):
 
 ```powershell
-python -m http.server 8093 --directory "C:\Users\Maxime\Antigravity\opencode\Site web\Maingard\proposition-3-bold"
+python -m http.server 8093 --directory "C:\Users\Maxime\Antigravity\opencode\Site web\Maingard\proposition-3-premium"
 ```
 
 URL:
