@@ -3,22 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Contact - Proposition 2 Premium</title>
-  <meta name="description" content="Contact MAUNAIS MAINGARD: telephone prioritaire, devis et localisation a Segonzac.">
+  <title>Contact MAUNAIS MAINGARD - telephone, email, acces magasin</title>
+  <meta name="description" content="Contact MAUNAIS MAINGARD a Segonzac: telephone prioritaire, email direct, formulaire d'information et acces Google Maps.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260318">
   <script src="script.js" defer></script>
 </head>
 <body>
   <header>
     <div class="top-strip">
       <div class="container top-strip-inner">
-        <p>Contact prioritaire: 90% des demandes demarrent par telephone.</p>
+        <p>Contact prioritaire: 90% des demandes sont traitees par telephone.</p>
         <div class="top-strip-links">
           <a href="tel:+33545834102">05 45 83 41 02</a>
-          <a href="#formulaire">Demander un devis</a>
+          <a href="mailto:contact@maunais-maingard.fr">Nous envoyer un email</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=34+Rue+Pierre+Viala%2C+16130+Segonzac" target="_blank" rel="noopener noreferrer">Venir en magasin</a>
         </div>
       </div>
     </div>
@@ -29,7 +30,7 @@
           <img src="assets/logo.png" alt="Logo MAUNAIS MAINGARD">
           <span>
             <strong>MAUNAIS MAINGARD</strong>
-            <small>Proposition 2 premium</small>
+            <small>Depuis 1938 - 88 ans d'experience</small>
           </span>
         </a>
 
@@ -40,11 +41,11 @@
           <a href="materiel-agricole.html">Materiel agricole</a>
           <a href="quincaillerie-libre-service.html">Quincaillerie</a>
           <a href="motoculture.html">Motoculture</a>
-          <a href="services-techniques.html">Services techniques</a>
+          <a href="services-techniques.html">Serrurerie / metallerie</a>
           <a class="active" href="contact.html">Contact</a>
         </nav>
 
-        <a class="header-cta" href="#formulaire">Demander un devis</a>
+        <a class="header-cta" href="#formulaire">Demander des informations</a>
       </div>
     </div>
   </header>
@@ -53,20 +54,22 @@
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy" data-reveal>
-          <p class="eyebrow">Contact</p>
-          <h1>Un numero unique pour repondre vite</h1>
+          <p class="eyebrow">Contact direct</p>
+          <h1>Un numero unique pour repondre rapidement</h1>
           <p>
-            La priorite reste le telephone pour qualifier rapidement votre demande,
-            puis un formulaire court pour les besoins plus detailes.
+            La priorite reste le telephone pour qualifier votre besoin tout de suite.
+            Pour les demandes detaillees, vous pouvez aussi envoyer un email ou remplir
+            le formulaire d'information ci-dessous.
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="tel:+33545834102">05 45 83 41 02</a>
-            <a class="btn btn-outline" href="#formulaire">Envoyer une demande</a>
+            <a class="btn btn-outline" href="mailto:contact@maunais-maingard.fr">Nous envoyer un email</a>
+            <a class="btn btn-outline" href="#formulaire">Demander des informations</a>
           </div>
         </div>
 
         <figure class="hero-media" data-reveal>
-          <img src="assets/photo-atelier.png" alt="Equipe MAUNAIS MAINGARD disponible">
+          <img src="assets/photo-atelier.png" alt="Equipe MAUNAIS MAINGARD disponible pour vous repondre">
         </figure>
       </div>
     </section>
@@ -95,13 +98,16 @@
     <section class="section section-alt" id="formulaire">
       <div class="container" data-reveal>
         <div class="section-header">
-          <h2>Demande de devis</h2>
-          <p>Formulaire concis pour traiter rapidement votre besoin.</p>
+          <h2>Demande d'informations</h2>
+          <p>Formulaire simple pour nous transmettre votre besoin en quelques lignes.</p>
         </div>
 
         <form class="form-grid" action="#" method="post">
-          <label>Nom complet
-            <input type="text" name="nom" autocomplete="name" required>
+          <label>Nom
+            <input type="text" name="nom" autocomplete="family-name" required>
+          </label>
+          <label>Prenom
+            <input type="text" name="prenom" autocomplete="given-name" required>
           </label>
           <label>Telephone
             <input type="tel" name="telephone" autocomplete="tel" required>
@@ -109,19 +115,19 @@
           <label>Email
             <input type="email" name="email" autocomplete="email">
           </label>
-          <label>Service concerne
+          <label class="full">Besoin concerne
             <select name="service">
               <option>Materiel agricole</option>
               <option>Quincaillerie / libre-service</option>
               <option>Motoculture</option>
-              <option>Services techniques</option>
+              <option>Serrurerie / metallerie / ferronnerie</option>
             </select>
           </label>
           <label class="full">Message
-            <textarea name="message" placeholder="Precisez votre besoin, le contexte et vos delais..."></textarea>
+            <textarea name="message" placeholder="Precisez votre besoin, le contexte et vos delais souhaites..."></textarea>
           </label>
           <div class="full">
-            <button class="btn btn-primary" type="submit">Envoyer la demande</button>
+            <button class="btn btn-primary" type="submit">Envoyer ma demande</button>
           </div>
         </form>
       </div>
@@ -148,12 +154,13 @@
       <div class="container" data-reveal>
         <div class="cta-band">
           <p>
-            Besoin d'une reponse immediate ? Appelez-nous directement pour qualifier
-            votre demande et planifier la suite.
+            Besoin d'une reponse immediate ? Appelez-nous pour qualifier votre demande
+            et planifier rapidement la suite.
           </p>
           <div class="cta-actions">
             <a class="btn btn-primary" href="tel:+33545834102">Appeler maintenant</a>
-            <a class="btn btn-outline" href="https://www.google.com/maps/search/?api=1&query=34+Rue+Pierre+Viala%2C+16130+Segonzac" target="_blank" rel="noopener noreferrer">Itineraire</a>
+            <a class="btn btn-outline" href="mailto:contact@maunais-maingard.fr">Nous envoyer un email</a>
+            <a class="btn btn-outline" href="https://www.google.com/maps/search/?api=1&query=34+Rue+Pierre+Viala%2C+16130+Segonzac" target="_blank" rel="noopener noreferrer">Venir en magasin</a>
           </div>
         </div>
       </div>
@@ -168,7 +175,7 @@
             <img src="assets/logo.png" alt="Logo MAUNAIS MAINGARD">
             <span>
               <strong>MAUNAIS MAINGARD</strong>
-              <small>Proposition 2 premium</small>
+              <small>Depuis 1938 - 88 ans d'experience</small>
             </span>
           </a>
           <p>Contact direct, conseil terrain et reponse rapide.</p>
@@ -179,7 +186,7 @@
           <a href="materiel-agricole.html">Materiel agricole</a>
           <a href="quincaillerie-libre-service.html">Quincaillerie</a>
           <a href="motoculture.html">Motoculture</a>
-          <a href="services-techniques.html">Services techniques</a>
+          <a href="services-techniques.html">Serrurerie / metallerie</a>
         </div>
 
         <div class="footer-col">
@@ -192,8 +199,9 @@
         <div class="footer-col">
           <h3>Action rapide</h3>
           <div class="footer-actions">
-            <a class="footer-action" href="#formulaire">Demander un devis</a>
-            <a class="footer-action" href="https://www.google.com/maps/search/?api=1&query=34+Rue+Pierre+Viala%2C+16130+Segonzac" target="_blank" rel="noopener noreferrer">Itineraire</a>
+            <a class="footer-action" href="#formulaire">Demander des informations</a>
+            <a class="footer-action" href="mailto:contact@maunais-maingard.fr">Nous envoyer un email</a>
+            <a class="footer-action" href="https://www.google.com/maps/search/?api=1&query=34+Rue+Pierre+Viala%2C+16130+Segonzac" target="_blank" rel="noopener noreferrer">Venir en magasin</a>
           </div>
         </div>
       </div>
@@ -203,9 +211,9 @@
       <div class="container footer-bottom-inner">
         <small>&copy; 2026 MAUNAIS MAINGARD. Tous droits reserves.</small>
         <div class="footer-bottom-links">
-          <a href="#">Mentions legales</a>
-          <a href="#">CGV</a>
-          <a href="#">Confidentialite</a>
+          <a href="contact.html">Mentions legales</a>
+          <a href="contact.html">Conditions generales</a>
+          <a href="contact.html">Protection des donnees</a>
         </div>
       </div>
     </div>
