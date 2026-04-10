@@ -10,9 +10,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20260318">
   <script src="script.js" defer></script>
+
+  <link rel="canonical" href="https://site-maunais-maingard.vercel.app/proposition-2-premium/contact.html">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://site-maunais-maingard.vercel.app/proposition-2-premium/contact.html">
+  <meta property="og:title" content="Contact MAUNAIS MAINGARD - telephone, email, acces magasin">
+  <meta property="og:description" content="Contact MAUNAIS MAINGARD a Segonzac: telephone prioritaire, email direct, formulaire d information et acces Google Maps.">
+  <meta property="og:image" content="https://site-maunais-maingard.vercel.app/proposition-2-premium/assets/photo-atelier.png">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="MAUNAIS MAINGARD">
 </head>
 <body>
-  <header>
+  <header role="banner">
     <div class="top-strip">
       <div class="container top-strip-inner">
         <p>Besoin d'un renseignement rapide ? Appelez-nous ou passez directement en magasin.</p>
@@ -27,7 +37,10 @@
     <div class="nav-shell">
       <div class="container nav-inner">
         <a class="brand" href="index.html">
-          <img src="assets/logo.png" alt="Logo MAUNAIS MAINGARD">
+          <picture>
+            <source srcset="assets/logo.webp" type="image/webp">
+            <img src="assets/logo.png" alt="Logo MAUNAIS MAINGARD" width="327" height="188">
+          </picture>
           <span>
             <strong>MAUNAIS MAINGARD</strong>
             <small>Depuis 1938 - 88 ans d'experience</small>
@@ -50,7 +63,7 @@
     </div>
   </header>
 
-  <main>
+  <main role="main">
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy" data-reveal>
@@ -69,7 +82,10 @@
         </div>
 
         <figure class="hero-media" data-reveal>
-          <img src="assets/photo-atelier.png" alt="Equipe MAUNAIS MAINGARD disponible pour vous repondre">
+          <picture>
+            <source srcset="assets/photo-atelier.webp" type="image/webp">
+            <img src="assets/photo-atelier.png" alt="Equipe MAUNAIS MAINGARD disponible pour vous repondre" width="1008" height="998">
+          </picture>
         </figure>
       </div>
     </section>
@@ -102,18 +118,27 @@
           <p>Formulaire simple pour nous decrire votre besoin avant votre passage ou votre appel.</p>
         </div>
 
-        <form class="form-grid" action="#" method="post">
-          <label>Nom
-            <input type="text" name="nom" autocomplete="family-name" required>
+        <!--
+          Phase test  (Vercel) : action="mailto:max@mxl.digital"
+          Phase prod  (IONOS)  : action="mail.php"
+          Changer la ligne action ci-dessous au moment de la migration IONOS.
+        -->
+        <form class="form-grid" id="contact-form" action="mailto:max@mxl.digital" method="post" accept-charset="UTF-8" novalidate>
+
+          <!-- Honeypot anti-spam : champ caché, ne jamais remplir -->
+          <input type="text" name="_trap" style="display:none" tabindex="-1" autocomplete="off">
+
+          <label>Nom *
+            <input type="text" name="nom" autocomplete="family-name" required minlength="2" maxlength="60">
           </label>
-          <label>Prenom
-            <input type="text" name="prenom" autocomplete="given-name" required>
+          <label>Prenom *
+            <input type="text" name="prenom" autocomplete="given-name" required minlength="2" maxlength="60">
           </label>
-          <label>Telephone
-            <input type="tel" name="telephone" autocomplete="tel" required>
+          <label>Telephone *
+            <input type="tel" name="telephone" autocomplete="tel" required maxlength="20">
           </label>
           <label>Email
-            <input type="email" name="email" autocomplete="email">
+            <input type="email" name="email" autocomplete="email" maxlength="100">
           </label>
           <label class="full">Besoin concerne
             <select name="service">
@@ -124,12 +149,56 @@
             </select>
           </label>
           <label class="full">Message
-            <textarea name="message" placeholder="Precisez votre besoin, le contexte et vos delais souhaites..."></textarea>
+            <textarea name="message" placeholder="Precisez votre besoin, le contexte et vos delais souhaites..." maxlength="2000"></textarea>
           </label>
-          <div class="full">
-            <button class="btn btn-primary" type="submit">Envoyer ma demande</button>
+          <div class="full form-submit-wrap">
+            <button class="btn btn-primary" type="submit" id="form-submit-btn">Envoyer ma demande</button>
+            <p class="form-feedback" id="form-feedback" aria-live="polite" hidden></p>
           </div>
         </form>
+
+        <script>
+        /* Gestion AJAX du formulaire — activé uniquement quand action="mail.php" (IONOS) */
+        (function () {
+          var form = document.getElementById('contact-form');
+          if (!form || form.action.indexOf('mail.php') === -1) return;
+
+          form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var btn      = document.getElementById('form-submit-btn');
+            var feedback = document.getElementById('form-feedback');
+            btn.disabled = true;
+            btn.textContent = 'Envoi en cours…';
+            feedback.hidden = true;
+
+            fetch('mail.php', {
+              method: 'POST',
+              body: new FormData(form)
+            })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+              if (data.success) {
+                feedback.textContent = 'Votre demande a bien été envoyée. Nous vous répondrons rapidement.';
+                feedback.className = 'form-feedback form-feedback--ok';
+                form.reset();
+              } else {
+                feedback.textContent = 'Une erreur est survenue. Appelez-nous directement au 05 45 83 41 02.';
+                feedback.className = 'form-feedback form-feedback--err';
+                btn.disabled = false;
+                btn.textContent = 'Envoyer ma demande';
+              }
+              feedback.hidden = false;
+            })
+            .catch(function () {
+              feedback.textContent = 'Envoi impossible. Appelez-nous au 05 45 83 41 02.';
+              feedback.className = 'form-feedback form-feedback--err';
+              feedback.hidden = false;
+              btn.disabled = false;
+              btn.textContent = 'Envoyer ma demande';
+            });
+          });
+        })();
+        </script>
       </div>
     </section>
 
@@ -167,12 +236,15 @@
     </section>
   </main>
 
-  <footer class="site-footer">
+  <footer class="site-footer" role="contentinfo">
     <div class="container footer-main">
       <div class="footer-grid">
         <div>
           <a class="footer-brand" href="index.html">
-            <img src="assets/logo.png" alt="Logo MAUNAIS MAINGARD">
+            <picture>
+            <source srcset="assets/logo.webp" type="image/webp">
+            <img src="assets/logo.png" alt="Logo MAUNAIS MAINGARD" width="327" height="188" loading="lazy">
+          </picture>
             <span>
               <strong>MAUNAIS MAINGARD</strong>
               <small>Depuis 1938 - 88 ans d'experience</small>
