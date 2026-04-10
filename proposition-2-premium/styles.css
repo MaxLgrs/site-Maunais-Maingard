@@ -757,6 +757,11 @@ textarea {
   color: var(--white);
 }
 
+.footer-brand picture {
+  width: auto;
+  flex: 0 0 auto;
+}
+
 .footer-brand img {
   width: 80px;
   height: 46px;
@@ -766,10 +771,9 @@ textarea {
 }
 
 .footer-brand span {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0;
-  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .footer-brand strong {
@@ -777,13 +781,11 @@ textarea {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-size: 1.1rem;
+  white-space: nowrap;
 }
 
 .footer-brand .brand-sep {
-  margin: 0 0.4rem;
-  color: #7a9a7c;
-  font-weight: 300;
-  font-size: 1rem;
+  display: none;
 }
 
 .footer-brand small {
@@ -791,6 +793,7 @@ textarea {
   font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  text-align: center;
 }
 
 .footer-grid p {
