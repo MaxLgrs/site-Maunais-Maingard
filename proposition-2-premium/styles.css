@@ -113,22 +113,26 @@ a {
 
 .brand {
   display: inline-flex;
-  align-items: center;
-  gap: 0.48rem;
+  align-items: flex-start;
+  gap: 0.6rem;
   text-decoration: none;
 }
 
+.brand picture {
+  width: auto;
+  flex: 0 0 auto;
+}
+
 .brand img {
-  width: 62px;
-  height: 62px;
+  width: 110px;
+  height: auto;
   object-fit: contain;
 }
 
 .brand span {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0;
-  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .brand strong {
@@ -141,18 +145,19 @@ a {
 }
 
 .brand .brand-sep {
-  margin: 0 0.45rem;
-  color: #9aaa8e;
-  font-weight: 300;
-  font-size: 1.1rem;
+  display: none;
 }
 
 .brand small {
+  display: block;
+  text-align: justify;
+  text-align-last: justify;
   color: #5d6e60;
   font-weight: 600;
-  font-size: 0.77rem;
-  letter-spacing: 0.03em;
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
+  margin-top: 0.2rem;
 }
 
 .menu-toggle {
@@ -177,10 +182,10 @@ a {
   text-decoration: none;
   color: #2f4533;
   font-weight: 700;
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  padding: 0.55rem 0.66rem;
+  padding: 0.5rem 0.52rem;
   border-radius: 8px;
 }
 
@@ -198,9 +203,9 @@ a {
   color: #1d270d;
   padding: 0.44rem 0.72rem;
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  font-size: 0.76rem;
+  font-size: 0.72rem;
 }
 
 .header-cta:hover {
@@ -949,28 +954,6 @@ textarea {
     font-size: clamp(2.1rem, 10vw, 3.2rem);
   }
 
-  .brand span,
-  .footer-brand span {
-    white-space: normal;
-    flex-wrap: wrap;
-  }
-
-  .brand .brand-sep,
-  .footer-brand .brand-sep {
-    display: none;
-  }
-
-  .brand strong,
-  .footer-brand strong {
-    display: block;
-    width: 100%;
-  }
-
-  .brand small,
-  .footer-brand small {
-    display: block;
-    margin-top: 0.15rem;
-  }
 }
 
 /* ── Formulaire de contact — feedback ──────────────────────────────────────── */
