@@ -1,100 +1,102 @@
 <?php
 /**
  * MAUNAIS MAINGARD — Formulaire de contact
+ * Envoi via PHPMailer SMTP — config par variables d'environnement
  *
- * Phase test  : EMAIL_DESTINATION = max@mxl.digital
- * Phase prod  : Remplacer par contact@maunais-maingard.fr
- *
- * Compatible IONOS (Apache + PHP 7.4+)
+ * Phase test VPS  : MAIL_TO=max@mxl.digital (défini dans Coolify)
+ * Phase prod IONOS: MAIL_TO=contact@maunais-maingard.fr
  */
 
-// ─── Configuration ───────────────────────────────────────────────────────────
-const EMAIL_DESTINATION = 'max@mxl.digital';      // ← changer en prod
-const EMAIL_FROM        = 'noreply@maunais-maingard.fr';
-const EMAIL_SUBJECT     = '[Site web] Nouvelle demande de contact';
-const HONEYPOT_FIELD    = '_trap';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+// ─── Configuration (variables d'environnement Coolify / IONOS) ───────────────
+define('MAIL_TO',   getenv('MAIL_TO')    ?: 'max@mxl.digital');
+define('SMTP_HOST', getenv('SMTP_HOST')  ?: 'smtp.gmail.com');
+define('SMTP_PORT', (int)(getenv('SMTP_PORT') ?: 587));
+define('SMTP_USER', getenv('SMTP_USER')  ?: '');
+define('SMTP_PASS', getenv('SMTP_PASS')  ?: '');
+define('SMTP_FROM', getenv('SMTP_FROM')  ?: getenv('SMTP_USER') ?: '');
+define('HONEYPOT',  '_trap');
 // ─────────────────────────────────────────────────────────────────────────────
 
 header('Content-Type: application/json; charset=utf-8');
 
-// Uniquement POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
-    echo json_encode(['success' => false, 'error' => 'Méthode non autorisée']);
+    echo json_encode(['success' => false]);
     exit;
 }
 
-// Vérification honeypot anti-spam
-if (!empty($_POST[HONEYPOT_FIELD])) {
-    // Bot détecté — répondre OK pour ne pas alerter le bot
+// Honeypot anti-spam
+if (!empty($_POST[HONEYPOT])) {
     echo json_encode(['success' => true]);
     exit;
 }
 
-// ─── Lecture et sanitization des inputs ──────────────────────────────────────
-$nom      = trim(htmlspecialchars($_POST['nom']      ?? '', ENT_QUOTES, 'UTF-8'));
-$prenom   = trim(htmlspecialchars($_POST['prenom']   ?? '', ENT_QUOTES, 'UTF-8'));
-$tel      = trim(htmlspecialchars($_POST['telephone'] ?? '', ENT_QUOTES, 'UTF-8'));
-$email    = trim($_POST['email']   ?? '');
-$service  = trim(htmlspecialchars($_POST['service']  ?? '', ENT_QUOTES, 'UTF-8'));
-$message  = trim(htmlspecialchars($_POST['message']  ?? '', ENT_QUOTES, 'UTF-8'));
+// ─── Sanitize ────────────────────────────────────────────────────────────────
+$nom     = trim(htmlspecialchars($_POST['nom']       ?? '', ENT_QUOTES, 'UTF-8'));
+$prenom  = trim(htmlspecialchars($_POST['prenom']    ?? '', ENT_QUOTES, 'UTF-8'));
+$tel     = trim(htmlspecialchars($_POST['telephone'] ?? '', ENT_QUOTES, 'UTF-8'));
+$email   = trim($_POST['email']   ?? '');
+$service = trim(htmlspecialchars($_POST['service']   ?? '', ENT_QUOTES, 'UTF-8'));
+$message = trim(htmlspecialchars($_POST['message']   ?? '', ENT_QUOTES, 'UTF-8'));
 
-// ─── Validations ─────────────────────────────────────────────────────────────
-$errors = [];
-
-if (empty($nom))    $errors[] = 'Le nom est requis.';
-if (empty($prenom)) $errors[] = 'Le prénom est requis.';
-if (empty($tel))    $errors[] = 'Le téléphone est requis.';
-
-if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $errors[] = 'Adresse email invalide.';
-}
-
-if (strlen($message) > 2000) {
-    $errors[] = 'Message trop long (2000 caractères max).';
-}
-
-if (!empty($errors)) {
+// ─── Validation ──────────────────────────────────────────────────────────────
+if (empty($nom) || empty($prenom) || empty($tel)) {
     http_response_code(422);
-    echo json_encode(['success' => false, 'errors' => $errors]);
+    echo json_encode(['success' => false, 'errors' => ['Champs obligatoires manquants.']]);
+    exit;
+}
+if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    http_response_code(422);
+    echo json_encode(['success' => false, 'errors' => ['Adresse email invalide.']]);
+    exit;
+}
+if (strlen($message) > 2000) {
+    http_response_code(422);
+    echo json_encode(['success' => false, 'errors' => ['Message trop long.']]);
     exit;
 }
 
-// ─── Composition de l'email ──────────────────────────────────────────────────
-$reply_to = !empty($email) ? $email : EMAIL_FROM;
+// ─── Envoi PHPMailer SMTP ────────────────────────────────────────────────────
 $nom_complet = $prenom . ' ' . $nom;
 
-$corps = "Nouvelle demande via le site web MAUNAIS MAINGARD\n";
-$corps .= str_repeat('─', 50) . "\n\n";
-$corps .= "Nom       : {$nom_complet}\n";
-$corps .= "Téléphone : {$tel}\n";
-if (!empty($email)) {
-    $corps .= "Email     : {$email}\n";
-}
-$corps .= "Service   : {$service}\n\n";
-$corps .= "Message :\n{$message}\n\n";
-$corps .= str_repeat('─', 50) . "\n";
-$corps .= "Envoyé le " . date('d/m/Y à H:i') . " depuis le site web.\n";
+$mail = new PHPMailer(true);
+try {
+    $mail->isSMTP();
+    $mail->Host       = SMTP_HOST;
+    $mail->SMTPAuth   = true;
+    $mail->Username   = SMTP_USER;
+    $mail->Password   = SMTP_PASS;
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = SMTP_PORT;
+    $mail->CharSet    = 'UTF-8';
 
-$headers  = "From: " . EMAIL_FROM . "\r\n";
-$headers .= "Reply-To: {$reply_to}\r\n";
-$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-$headers .= "Content-Transfer-Encoding: 8bit\r\n";
-$headers .= "X-Mailer: PHP/" . phpversion();
+    $mail->setFrom(SMTP_FROM, 'Site MAUNAIS MAINGARD');
+    $mail->addAddress(MAIL_TO, 'MAUNAIS MAINGARD');
+    if (!empty($email)) {
+        $mail->addReplyTo($email, $nom_complet);
+    }
 
-// ─── Envoi ───────────────────────────────────────────────────────────────────
-$sujet_encode = '=?UTF-8?B?' . base64_encode(EMAIL_SUBJECT . ' — ' . $nom_complet) . '?=';
+    $mail->Subject = '[Site web] Demande - ' . $nom_complet;
+    $corps = "Nouvelle demande via le site web MAUNAIS MAINGARD\n";
+    $corps .= str_repeat('-', 50) . "\n\n";
+    $corps .= "Nom       : {$nom_complet}\n";
+    $corps .= "Telephone : {$tel}\n";
+    if (!empty($email)) $corps .= "Email     : {$email}\n";
+    $corps .= "Service   : {$service}\n\n";
+    $corps .= "Message :\n{$message}\n\n";
+    $corps .= str_repeat('-', 50) . "\n";
+    $corps .= "Envoye le " . date('d/m/Y a H:i') . " depuis le site web.\n";
+    $mail->Body = $corps;
 
-$envoye = mail(
-    EMAIL_DESTINATION,
-    $sujet_encode,
-    $corps,
-    $headers
-);
+    $mail->send();
+    echo json_encode(['success' => true]);
 
-if ($envoye) {
-    echo json_encode(['success' => true, 'message' => 'Votre demande a bien été envoyée.']);
-} else {
+} catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['success' => false, 'error' => "L'envoi a échoué. Veuillez nous appeler directement."]);
+    echo json_encode(['success' => false, 'error' => 'Envoi impossible : ' . $mail->ErrorInfo]);
 }
