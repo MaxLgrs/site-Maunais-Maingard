@@ -265,13 +265,13 @@ h1 {
   max-width: 12ch;
 }
 
-.hero-home h1 {
+.hero h1 {
   font-size: clamp(1.5rem, 2.6vw, 2.6rem);
   line-height: 1.05;
   max-width: none;
 }
 
-.hero-home .hero-copy p {
+.hero .hero-copy p {
   max-width: 68ch;
 }
 
