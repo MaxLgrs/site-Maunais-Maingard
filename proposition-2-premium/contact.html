@@ -119,13 +119,13 @@
         </div>
 
         <!--
-          Phase test  (Vercel) : action="mailto:max@mxl.digital"
-          Phase prod  (IONOS)  : action="mail.php"
-          Changer la ligne action ci-dessous au moment de la migration IONOS.
+          Phase test  (Vercel) : action="#" → le JS compose un mailto propre
+          Phase prod  (IONOS)  : action="mail.php" → le JS envoie en AJAX
+          Il suffit de changer action="#" en action="mail.php" au moment de la migration IONOS.
         -->
-        <form class="form-grid" id="contact-form" action="mailto:max@mxl.digital" method="post" accept-charset="UTF-8" novalidate>
+        <form class="form-grid" id="contact-form" action="#" method="post" accept-charset="UTF-8" novalidate>
 
-          <!-- Honeypot anti-spam : champ caché, ne jamais remplir -->
+          <!-- Honeypot anti-spam : champ invisible, ne jamais remplir -->
           <input type="text" name="_trap" style="display:none" tabindex="-1" autocomplete="off">
 
           <label>Nom *
@@ -158,44 +158,78 @@
         </form>
 
         <script>
-        /* Gestion AJAX du formulaire — activé uniquement quand action="mail.php" (IONOS) */
         (function () {
-          var form = document.getElementById('contact-form');
-          if (!form || form.action.indexOf('mail.php') === -1) return;
+          var form     = document.getElementById('contact-form');
+          var btn      = document.getElementById('form-submit-btn');
+          var feedback = document.getElementById('form-feedback');
+          if (!form) return;
+
+          /* ── Destinataire : changer pour IONOS prod ──────────── */
+          var MAILTO = 'max@mxl.digital';          /* test */
+          /* var MAILTO = 'contact@maunais-maingard.fr'; */  /* prod */
 
           form.addEventListener('submit', function (e) {
             e.preventDefault();
-            var btn      = document.getElementById('form-submit-btn');
-            var feedback = document.getElementById('form-feedback');
-            btn.disabled = true;
-            btn.textContent = 'Envoi en cours…';
-            feedback.hidden = true;
 
-            fetch('mail.php', {
-              method: 'POST',
-              body: new FormData(form)
-            })
-            .then(function (r) { return r.json(); })
-            .then(function (data) {
-              if (data.success) {
-                feedback.textContent = 'Votre demande a bien été envoyée. Nous vous répondrons rapidement.';
-                feedback.className = 'form-feedback form-feedback--ok';
-                form.reset();
-              } else {
-                feedback.textContent = 'Une erreur est survenue. Appelez-nous directement au 05 45 83 41 02.';
-                feedback.className = 'form-feedback form-feedback--err';
-                btn.disabled = false;
-                btn.textContent = 'Envoyer ma demande';
-              }
-              feedback.hidden = false;
-            })
-            .catch(function () {
-              feedback.textContent = 'Envoi impossible. Appelez-nous au 05 45 83 41 02.';
-              feedback.className = 'form-feedback form-feedback--err';
-              feedback.hidden = false;
-              btn.disabled = false;
-              btn.textContent = 'Envoyer ma demande';
-            });
+            /* Validation rapide côté client */
+            var nom  = form.nom.value.trim();
+            var pre  = form.prenom.value.trim();
+            var tel  = form.telephone.value.trim();
+            if (!nom || !pre || !tel) {
+              feedback.textContent = 'Merci de remplir les champs obligatoires (nom, prenom, telephone).';
+              feedback.className   = 'form-feedback form-feedback--err';
+              feedback.hidden      = false;
+              return;
+            }
+
+            /* ── Mode IONOS : envoi AJAX vers mail.php ────────── */
+            if (form.action.indexOf('mail.php') !== -1) {
+              btn.disabled    = true;
+              btn.textContent = 'Envoi en cours...';
+              feedback.hidden = true;
+
+              fetch('mail.php', { method: 'POST', body: new FormData(form) })
+                .then(function (r) { return r.json(); })
+                .then(function (d) {
+                  if (d.success) {
+                    feedback.textContent = 'Votre demande a bien ete envoyee. Nous vous repondrons rapidement.';
+                    feedback.className   = 'form-feedback form-feedback--ok';
+                    form.reset();
+                  } else {
+                    feedback.textContent = 'Erreur. Appelez-nous au 05 45 83 41 02.';
+                    feedback.className   = 'form-feedback form-feedback--err';
+                    btn.disabled = false; btn.textContent = 'Envoyer ma demande';
+                  }
+                  feedback.hidden = false;
+                })
+                .catch(function () {
+                  feedback.textContent = 'Envoi impossible. Appelez-nous au 05 45 83 41 02.';
+                  feedback.className   = 'form-feedback form-feedback--err';
+                  feedback.hidden = false;
+                  btn.disabled = false; btn.textContent = 'Envoyer ma demande';
+                });
+              return;
+            }
+
+            /* ── Mode Vercel (test) : composer un mailto propre ── */
+            var email   = form.email.value.trim();
+            var service = form.service.value;
+            var msg     = form.message.value.trim();
+
+            var subject = encodeURIComponent('Demande depuis le site — ' + pre + ' ' + nom);
+            var body    = encodeURIComponent(
+              'Nom : ' + pre + ' ' + nom + '\n' +
+              'Telephone : ' + tel + '\n' +
+              (email ? 'Email : ' + email + '\n' : '') +
+              'Service : ' + service + '\n\n' +
+              'Message :\n' + msg
+            );
+
+            window.location.href = 'mailto:' + MAILTO + '?subject=' + subject + '&body=' + body;
+
+            feedback.textContent = 'Votre application email va s\'ouvrir. Si rien ne se passe, appelez-nous au 05 45 83 41 02.';
+            feedback.className   = 'form-feedback form-feedback--ok';
+            feedback.hidden      = false;
           });
         })();
         </script>

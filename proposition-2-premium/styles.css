@@ -21,6 +21,12 @@
   box-sizing: border-box;
 }
 
+/* Fix global : <picture> doit se comporter comme un bloc pour ne pas casser le layout */
+picture {
+  display: block;
+  width: 100%;
+}
+
 html {
   scroll-behavior: smooth;
 }
