@@ -114,7 +114,7 @@ a {
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.68rem;
+  gap: 0.48rem;
   text-decoration: none;
 }
 
@@ -124,8 +124,14 @@ a {
   object-fit: contain;
 }
 
+.brand span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+  white-space: nowrap;
+}
+
 .brand strong {
-  display: block;
   font-family: "Archivo Narrow", "Arial Narrow", sans-serif;
   font-size: 1.27rem;
   letter-spacing: 0.04em;
@@ -134,9 +140,14 @@ a {
   line-height: 1;
 }
 
+.brand .brand-sep {
+  margin: 0 0.45rem;
+  color: #9aaa8e;
+  font-weight: 300;
+  font-size: 1.1rem;
+}
+
 .brand small {
-  display: block;
-  margin-top: 0.25rem;
   color: #5d6e60;
   font-weight: 600;
   font-size: 0.77rem;
@@ -185,7 +196,7 @@ a {
   text-decoration: none;
   background: linear-gradient(130deg, var(--gold-500), var(--gold-600));
   color: #1d270d;
-  padding: 0.66rem 0.94rem;
+  padding: 0.44rem 0.72rem;
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -746,16 +757,28 @@ textarea {
   object-fit: contain;
 }
 
+.footer-brand span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+  white-space: nowrap;
+}
+
 .footer-brand strong {
-  display: block;
   font-family: "Archivo Narrow", "Arial Narrow", sans-serif;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-size: 1.1rem;
 }
 
+.footer-brand .brand-sep {
+  margin: 0 0.4rem;
+  color: #7a9a7c;
+  font-weight: 300;
+  font-size: 1rem;
+}
+
 .footer-brand small {
-  display: block;
   color: #abc1ac;
   font-size: 0.78rem;
   text-transform: uppercase;
@@ -925,6 +948,29 @@ textarea {
   h1 {
     font-size: clamp(2.1rem, 10vw, 3.2rem);
   }
+
+  .brand span,
+  .footer-brand span {
+    white-space: normal;
+    flex-wrap: wrap;
+  }
+
+  .brand .brand-sep,
+  .footer-brand .brand-sep {
+    display: none;
+  }
+
+  .brand strong,
+  .footer-brand strong {
+    display: block;
+    width: 100%;
+  }
+
+  .brand small,
+  .footer-brand small {
+    display: block;
+    margin-top: 0.15rem;
+  }
 }
 
 /* ── Formulaire de contact — feedback ──────────────────────────────────────── */
@@ -951,4 +997,37 @@ textarea {
   background: #fee2e2;
   color: #991b1b;
   border: 1px solid #fca5a5;
+}
+
+/* ── Pages legales ───────────────────────────────────────────────────────── */
+.legal-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.legal-content h2 {
+  font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.legal-content h3 {
+  font-size: 1.15rem;
+  margin-top: 1.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.legal-content p,
+.legal-content li {
+  color: var(--ink-700);
+  line-height: 1.65;
+}
+
+.legal-content ul {
+  padding-left: 1.2rem;
+  margin: 0.6rem 0;
+}
+
+.legal-content li {
+  margin-bottom: 0.3rem;
 }

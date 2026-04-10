@@ -28,8 +28,8 @@
         <p>Besoin d'un renseignement rapide ? Appelez-nous ou passez directement en magasin.</p>
         <div class="top-strip-links">
           <a href="tel:+33545834102">05 45 83 41 02</a>
-          <a href="mailto:contact@maunais-maingard.fr">Nous envoyer un email</a>
-          <a href="https://www.google.com/maps/search/?api=1&query=34+Rue+Pierre+Viala%2C+16130+Segonzac" target="_blank" rel="noopener noreferrer">Venir en magasin</a>
+          <a href="#formulaire">Nous envoyer un email</a>
+          <a href="#carte">Venir en magasin</a>
         </div>
       </div>
     </div>
@@ -43,6 +43,7 @@
           </picture>
           <span>
             <strong>MAUNAIS MAINGARD</strong>
+            <span class="brand-sep">|</span>
             <small>Depuis 1938 - 88 ans d'experience</small>
           </span>
         </a>
@@ -76,8 +77,8 @@
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="tel:+33545834102">05 45 83 41 02</a>
-            <a class="btn btn-outline" href="mailto:contact@maunais-maingard.fr">Nous envoyer un email</a>
-            <a class="btn btn-outline" href="https://www.google.com/maps/search/?api=1&query=34+Rue+Pierre+Viala%2C+16130+Segonzac" target="_blank" rel="noopener noreferrer">Venir en magasin</a>
+            <a class="btn btn-outline" href="#formulaire">Nous envoyer un email</a>
+            <a class="btn btn-outline" href="#carte">Venir en magasin</a>
           </div>
         </div>
 
@@ -164,14 +165,6 @@
           var feedback = document.getElementById('form-feedback');
           if (!form) return;
 
-          /*
-           * Destinataire (une seule constante à changer) :
-           *   Phase test  Vercel → max@mxl.digital
-           *   Phase prod  IONOS  → contact@maunais-maingard.fr
-           *   Sur IONOS : remplacer action="#" par action="mail.php" dans le <form>
-           */
-          var DEST = 'max@mxl.digital';
-
           form.addEventListener('submit', function (e) {
             e.preventDefault();
 
@@ -186,7 +179,9 @@
               return;
             }
 
-            /* ── Mode IONOS : envoi AJAX vers mail.php ────────── */
+            /* ── Mode IONOS (prod) : envoi AJAX vers mail.php ────
+               Activer en changeant action="#" → action="mail.php" dans le <form>
+            ─────────────────────────────────────────────────────── */
             if (form.action.indexOf('mail.php') !== -1) {
               btn.disabled    = true;
               btn.textContent = 'Envoi en cours...';
@@ -200,7 +195,7 @@
                     feedback.className   = 'form-feedback form-feedback--ok';
                     form.reset();
                   } else {
-                    feedback.textContent = 'Erreur lors de l\'envoi. Appelez-nous au 05 45 83 41 02.';
+                    feedback.textContent = 'Erreur lors de l\'envoi. Appelez-nous directement au 05 45 83 41 02.';
                     feedback.className   = 'form-feedback form-feedback--err';
                     btn.disabled = false; btn.textContent = 'Envoyer ma demande';
                   }
@@ -215,51 +210,35 @@
               return;
             }
 
-            /* ── Mode Vercel : envoi AJAX via Formsubmit.co (gratuit, illimite) ── */
-            btn.disabled    = true;
-            btn.textContent = 'Envoi en cours...';
-            feedback.hidden = true;
+            /* ── Mode Vercel (test) : ouverture mailto ────────────
+               Limitation Vercel : pas de PHP. Sur IONOS ce bloc
+               ne s'execute jamais (action="mail.php" détecté avant).
+            ─────────────────────────────────────────────────────── */
+            var email   = form.email.value.trim();
+            var service = form.service.value;
+            var msg     = form.message.value.trim();
 
-            fetch('https://formsubmit.co/ajax/' + DEST, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-              body: JSON.stringify({
-                nom:       nom,
-                prenom:    pre,
-                telephone: tel,
-                email:     form.email.value.trim(),
-                service:   form.service.value,
-                message:   form.message.value.trim(),
-                _subject:  'Demande site — ' + pre + ' ' + nom,
-                _captcha:  'false',
-                _template: 'table'
-              })
-            })
-            .then(function (r) { return r.json(); })
-            .then(function (d) {
-              if (d.success === 'true' || d.success === true) {
-                feedback.textContent = 'Votre message a bien ete transmis ! Nous vous repondrons rapidement. Vous pouvez aussi nous appeler directement au 05 45 83 41 02.';
-                feedback.className   = 'form-feedback form-feedback--ok';
-                form.reset();
-                btn.disabled = false; btn.textContent = 'Envoyer ma demande';
-              } else {
-                throw new Error('echec');
-              }
-              feedback.hidden = false;
-            })
-            .catch(function () {
-              feedback.textContent = 'Envoi impossible pour le moment. Appelez-nous au 05 45 83 41 02.';
-              feedback.className   = 'form-feedback form-feedback--err';
-              feedback.hidden = false;
-              btn.disabled = false; btn.textContent = 'Envoyer ma demande';
-            });
+            var subject = encodeURIComponent('Demande site — ' + pre + ' ' + nom);
+            var body    = encodeURIComponent(
+              'Nom : ' + pre + ' ' + nom + '\n' +
+              'Telephone : ' + tel + '\n' +
+              (email ? 'Email : ' + email + '\n' : '') +
+              'Service : ' + service + '\n\n' +
+              'Message :\n' + msg
+            );
+
+            window.location.href = 'mailto:max@mxl.digital?subject=' + subject + '&body=' + body;
+
+            feedback.textContent = 'Votre client email va s\'ouvrir pour finaliser l\'envoi.';
+            feedback.className   = 'form-feedback form-feedback--ok';
+            feedback.hidden      = false;
           });
         })();
         </script>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="carte">
       <div class="container" data-reveal>
         <div class="section-header">
           <h2>Localisation du magasin</h2>
@@ -285,8 +264,8 @@
           </p>
           <div class="cta-actions">
             <a class="btn btn-primary" href="tel:+33545834102">Appeler maintenant</a>
-            <a class="btn btn-outline" href="mailto:contact@maunais-maingard.fr">Nous envoyer un email</a>
-            <a class="btn btn-outline" href="https://www.google.com/maps/search/?api=1&query=34+Rue+Pierre+Viala%2C+16130+Segonzac" target="_blank" rel="noopener noreferrer">Venir en magasin</a>
+            <a class="btn btn-outline" href="#formulaire">Nous envoyer un email</a>
+            <a class="btn btn-outline" href="#carte">Venir en magasin</a>
           </div>
         </div>
       </div>
@@ -304,6 +283,7 @@
           </picture>
             <span>
               <strong>MAUNAIS MAINGARD</strong>
+              <span class="brand-sep">|</span>
               <small>Depuis 1938 - 88 ans d'experience</small>
             </span>
           </a>
@@ -329,8 +309,8 @@
           <h3>Action rapide</h3>
           <div class="footer-actions">
             <a class="footer-action" href="#formulaire">Demander des informations</a>
-            <a class="footer-action" href="mailto:contact@maunais-maingard.fr">Nous envoyer un email</a>
-            <a class="footer-action" href="https://www.google.com/maps/search/?api=1&query=34+Rue+Pierre+Viala%2C+16130+Segonzac" target="_blank" rel="noopener noreferrer">Venir en magasin</a>
+            <a class="footer-action" href="#formulaire">Nous envoyer un email</a>
+            <a class="footer-action" href="#carte">Venir en magasin</a>
           </div>
         </div>
       </div>
@@ -340,9 +320,9 @@
       <div class="container footer-bottom-inner">
         <small>&copy; 2026 MAUNAIS MAINGARD. Tous droits reserves.</small>
         <div class="footer-bottom-links">
-          <a href="contact.html">Mentions legales</a>
-          <a href="contact.html">Conditions generales</a>
-          <a href="contact.html">Protection des donnees</a>
+          <a href="mentions-legales.html">Mentions legales</a>
+          <a href="conditions-generales.html">Conditions generales</a>
+          <a href="protection-donnees.html">Protection des donnees</a>
         </div>
       </div>
     </div>

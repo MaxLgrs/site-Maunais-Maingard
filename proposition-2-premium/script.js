@@ -42,3 +42,33 @@ const logoTrack = document.querySelector("[data-logo-track]");
 if (logoTrack && reduceMotion.matches) {
   logoTrack.style.animation = "none";
 }
+
+/* ── Cross-page hash scroll ──────────────────────────────────────────────── */
+(function () {
+  var hash = window.location.hash;
+  if (!hash) return;
+
+  function scrollToHash() {
+    var target = document.querySelector(hash);
+    if (!target) return;
+
+    // Force-reveal si data-reveal cache la section
+    if (target.hasAttribute("data-reveal")) {
+      target.classList.add("is-visible");
+    }
+    var inner = target.querySelector("[data-reveal]");
+    if (inner) inner.classList.add("is-visible");
+    var parent = target.closest("[data-reveal]");
+    if (parent) parent.classList.add("is-visible");
+
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  if (document.readyState === "complete") {
+    setTimeout(scrollToHash, 100);
+  } else {
+    window.addEventListener("load", function () {
+      setTimeout(scrollToHash, 100);
+    });
+  }
+})();
