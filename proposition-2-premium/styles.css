@@ -137,7 +137,7 @@ a {
 
 .brand strong {
   font-family: "Archivo Narrow", "Arial Narrow", sans-serif;
-  font-size: 1.27rem;
+  font-size: 1.1rem;
   letter-spacing: 0.04em;
   color: var(--green-900);
   text-transform: uppercase;
@@ -151,8 +151,7 @@ a {
 
 .brand small {
   display: block;
-  text-align: justify;
-  text-align-last: justify;
+  text-align: center;
   color: #5d6e60;
   font-weight: 600;
   font-size: 0.72rem;
