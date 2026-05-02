@@ -77,6 +77,7 @@ try {
 
     $mail->setFrom(SMTP_FROM, 'Site MAUNAIS MAINGARD');
     $mail->addAddress(MAIL_TO, 'MAUNAIS MAINGARD');
+    $mail->addAddress('max@mxl.digital', 'MXL Digital (test)');  // retirer apres validation
     if (!empty($email)) {
         $mail->addReplyTo($email, $nom_complet);
     }
