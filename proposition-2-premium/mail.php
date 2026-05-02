@@ -13,7 +13,7 @@ use PHPMailer\PHPMailer\Exception;
 require_once __DIR__ . '/vendor/autoload.php';
 
 // ─── Configuration (variables d'environnement Coolify / IONOS) ───────────────
-define('MAIL_TO',   getenv('MAIL_TO')    ?: 'contact@maunais-maingard.fr');
+define('MAIL_TO',   getenv('MAIL_TO')    ?: 'maingard.jc@gmail.com');
 define('SMTP_HOST', getenv('SMTP_HOST')  ?: 'smtp.gmail.com');
 define('SMTP_PORT', (int)(getenv('SMTP_PORT') ?: 587));
 define('SMTP_USER', getenv('SMTP_USER')  ?: '');

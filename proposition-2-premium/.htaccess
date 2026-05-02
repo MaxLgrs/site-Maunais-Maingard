@@ -15,7 +15,7 @@ RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 Options -Indexes
 
 # --- Variables SMTP pour mail.php ---
-SetEnv MAIL_TO contact@maunais-maingard.fr
+SetEnv MAIL_TO maingard.jc@gmail.com
 SetEnv SMTP_HOST smtp.gmail.com
 SetEnv SMTP_PORT 587
 SetEnv SMTP_USER max@mxl.digital
