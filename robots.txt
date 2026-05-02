@@ -1,5 +1,5 @@
 User-agent: *
-Allow: /proposition-2-premium/
+Allow: /
 
 # Anciennes propositions — ne pas indexer
 Disallow: /proposition-1-premium/
@@ -8,4 +8,4 @@ Disallow: /v2-warm/
 Disallow: /v3-bold/
 Disallow: /Ressources/
 
-Sitemap: https://site-maunais-maingard.vercel.app/sitemap.xml
+Sitemap: https://www.maunaismaingard.fr/sitemap.xml
